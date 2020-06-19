@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
-
 import com.ppe.orderservice.order.entity.OrderDetailEntity;
 import com.ppe.orderservice.order.entity.OrderEntity;
 import com.ppe.orderservice.order.entity.OrderEventEntity;
@@ -33,6 +30,11 @@ public class OrderController {
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
 
+	/**
+	 * This API simulates a message consumer. It reads the events
+	 * and updates the order and the orderDetail tables
+	 * 
+	 */
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/processOrderEvents")
 	public void processOrderEvents() {
@@ -51,12 +53,12 @@ public class OrderController {
 				orderEntity.setCustomerId(orderEventEntity.getCustomerId());
 				orderEntity.setId(orderEventEntity.getOrderId());
 				List<OrderDetailEntity> orderDetailEntities = new ArrayList<OrderDetailEntity>();
-				extracted(orderEventEntity, orderEntity, orderDetailEntities);
+				updateOrderDetails(orderEventEntity, orderEntity, orderDetailEntities);
 				orderCustomerMap.put(orderEventEntity.getOrderId(), orderEntity);
 			} else {
 				OrderEntity orderEntity = orderCustomerMap.get(orderEventEntity.getOrderId());
 				List<OrderDetailEntity> orderDetailEntities = orderEntity.getOrderDetailEntities();
-				extracted(orderEventEntity, orderEntity, orderDetailEntities);
+				updateOrderDetails(orderEventEntity, orderEntity, orderDetailEntities);
 				orderCustomerMap.put(orderEventEntity.getOrderId(), orderEntity);
 
 			}
@@ -75,15 +77,12 @@ public class OrderController {
 	}
 	private void printOrders() {
 		List<OrderEntity> orders = orderRepository.findAll();
-		System.out.println(orders.size());
-		System.out.println(orders.get(0).getOrderDetailEntities().size());
-		System.out.println(orders.get(0).getOrderDetailEntities().get(0).getProductId());
 		for(OrderEntity orderEntity: orders) {
 			System.out.println("Customer Id"+orderEntity.getCustomerId());
 			orderEntity.getOrderDetailEntities().forEach(orderDetailEntity -> System.out.println( "Product Id " +  orderDetailEntity.getProductId() + "Quantity "+ orderDetailEntity.getQuantity()));
 		}
 	}
-	private void extracted(OrderEventEntity orderEventEntity, OrderEntity orderEntity,
+	private void updateOrderDetails(OrderEventEntity orderEventEntity, OrderEntity orderEntity,
 			List<OrderDetailEntity> orderDetailEntities) {
 		OrderDetailEntity orderDetailEnity = new OrderDetailEntity(orderEventEntity.getProductId(),
 				orderEventEntity.getQuantity());
