@@ -36,7 +36,7 @@ public class OrderController {
 	 * and updates the order and the orderDetail tables
 	 * 
 	 */
-	@CrossOrigin(origins = "*", maxAge = 3600)
+	//@CrossOrigin(origins = "*", maxAge = 3600)
 	@PostMapping("/processOrderEvents")
 	public void processOrderEvents() {
 		
