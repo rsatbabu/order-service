@@ -1,4 +1,4 @@
-package com.example.demo.orderevent.model;
+package com.ppe.orderservice.order.model;
 
 import lombok.Data;
 

@@ -11,12 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 
-import com.example.demo.orderevent.exception.ConsumerException;
-import com.example.demo.orderevent.model.OrderEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ppe.orderservice.order.entity.OrderDetailEntity;
 import com.ppe.orderservice.order.entity.OrderEntity;
+import com.ppe.orderservice.order.exception.ConsumerException;
+import com.ppe.orderservice.order.model.OrderEvent;
 import com.ppe.orderservice.order.repository.OrderRepository;
 
 //@Service

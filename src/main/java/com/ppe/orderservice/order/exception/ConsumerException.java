@@ -1,4 +1,4 @@
-package com.example.demo.orderevent.exception;
+package com.ppe.orderservice.order.exception;
 
 public class ConsumerException extends Exception {
 
